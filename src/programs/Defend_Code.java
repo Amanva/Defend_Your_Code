@@ -1,5 +1,6 @@
 package programs;
 
+import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -9,8 +10,6 @@ public class Defend_Code {
 
     static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
-        name();
-        twoInts();
         inputFile();
     }
 
@@ -22,6 +21,8 @@ public class Defend_Code {
         String name = scan.nextLine();
         String output = nameValidation(name);
         System.out.println(output);
+
+
 
     }
     public static String nameValidation(String input){
@@ -40,16 +41,27 @@ public class Defend_Code {
 
 
     public static void inputFile(){
-        System.out.println("Enter file used for input, must end in txt extension" +
-                "\nexample: input.txt");
+        System.out.println("Enter file used for input, must end in txt extension. Include directory" +
+                "\nexample: C:Windows\\System32\\system\\input.txt");
         String inputFile = scan.nextLine();
         String output = inputFileValidation(inputFile);
         System.out.println(output);
 
+        //check if file exists
+        File f = new File(inputFile);
+
+        if(f.exists()){
+            System.out.println("File exists");
+        }
+        else{
+            System.out.println("File doesn't exist");
+
+        }
+
     }
 
     public static String inputFileValidation(String input){
-        String pattern = "^[a-zA-z0-9_]{0,260}\\.txt$";
+        String pattern = "^[a-zA-z0-9:_/\\\\]{1,}\\.txt$";
         Pattern pat = Pattern.compile(pattern);
 
         Matcher m = pat.matcher(input);
