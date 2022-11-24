@@ -5,6 +5,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 
 public class Defend_Code {
 
@@ -115,5 +121,38 @@ public class Defend_Code {
         }
 
         System.out.println(int1 + " " + int2);
+    }
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void Password() {
+        System.out.println("Enter password: ");
+        String password = scanner.nextLine();
+        if(isPasswordValid(password)){
+            byte[] hashedPass = Hash(password);
+        }
+
+    }
+    public static boolean isPasswordValid(String userString){
+        String validity = "^((?=.*[A-Z])(?=.*[a-z])(?!.*[a-z]{3,})(?=.*[\\d])(?=.*[!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{~}])).{10,}$";
+        Pattern pattern = Pattern.compile(validity);
+        Matcher match = pattern.matcher(userString);
+        return match.find();
+
+    }
+
+    public static byte[] Hash(String password) {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = null;
+        byte[] hash = null;
+        try {
+            factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            hash = factory.generateSecret(spec).getEncoded();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        return hash;
     }
 }
