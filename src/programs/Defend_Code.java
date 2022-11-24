@@ -117,6 +117,7 @@ public class Defend_Code {
         String password = scanner.nextLine();
         if(isPasswordValid(password)){
             byte[] hashedPass = Hash(password);
+
         }
 
     }
@@ -139,8 +140,10 @@ public class Defend_Code {
             factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             hash = factory.generateSecret(spec).getEncoded();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
+            System.out.println("error");
         }
         return hash;
     }
+
+
 }
