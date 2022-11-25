@@ -1,6 +1,13 @@
 package programs;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -12,11 +19,13 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
+
 public class Defend_Code {
 
     static Scanner scan = new Scanner(System.in);
     public static void main(String[] args) {
-        inputFile();
+//        inputFile();
+        Password();
     }
 
     public static void name(){
@@ -126,10 +135,20 @@ public class Defend_Code {
 
     public static void Password() {
         System.out.println("Enter password: ");
-        String password = scanner.nextLine();
+        String password = scanner.nextLine().strip();
         if(isPasswordValid(password)){
-            byte[] hashedPass = Hash(password);
+            try {
+                byte[] hashedPass = hash(password);
+                String hashedString = toHex(hashedPass);
+                fileWrite(hashedString);
 
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else{
+            System.out.println("Invalid password");
         }
 
     }
@@ -141,12 +160,12 @@ public class Defend_Code {
 
     }
 
-    public static byte[] Hash(String password) {
+    public static byte[] hash(String password) {
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = null;
+        SecretKeyFactory factory;
         byte[] hash = null;
         try {
             factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -155,6 +174,35 @@ public class Defend_Code {
             System.out.println("error");
         }
         return hash;
+    }
+    public static void fileWrite(String password){
+        File file = new File("Password_File.txt");
+        Path path = file.toPath();
+        try {
+            Files.writeString(path,password, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * reference: https://blog.knoldus.com/encryption-with-pbkdf2/
+     * @param array
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    private static String toHex(byte[] array) throws NoSuchAlgorithmException
+    {
+        BigInteger bi = new BigInteger(1, array);
+        String hex = bi.toString(16);
+        int paddingLength = (array.length * 2) - hex.length();
+        if(paddingLength > 0)
+        {
+            return String.format("%0"  +paddingLength + "d", 0) + hex;
+        }else{
+            return hex;
+        }
     }
 
 
