@@ -135,21 +135,35 @@ public class Defend_Code {
     static Scanner scanner = new Scanner(System.in);
 
     public static void Password() {
-        System.out.println("Enter password: ");
-        String password = scanner.nextLine();
+        boolean correct = false;
         byte[] salter = salt();
-        if(isPasswordValid(password)){
-                byte[] hashedPass = hash(password, salter);
+        while(correct == false){
+            System.out.println("Password must include:\n" +
+                    "at least one upper case character,\n" +
+                    "at least one digit,\n" +
+                    "at least one lower case character,\n" +
+                    "at least one punctuation mark\n" +
+                    "No three consecutive lower case characters\n" +
+                    "Enter Password: ");
+            String password = scanner.nextLine();
+        if(isPasswordValid(password)) {
+            byte[] hashedPass = hash(password, salter);
+            fileWrite(hashedPass);
             System.out.println("Re-enter password to verify: ");
             password = scanner.nextLine();
             byte[] newPassword = hash(password, salter);
-            System.out.println(Arrays.toString(newPassword));
-
-// AFJSKLF1231!!sd
-
+            byte[] filePassword = fileRead();
+            if (isEqual(filePassword, newPassword)) {
+                correct = true;
+                System.out.println("Password is set");
+            } else {
+                System.out.println("Password does not match");
+            }
         }
+// AFJSKLF1231!!sd
         else{
-            System.out.println("Invalid password");
+                System.out.println("Invalid password");
+            }
         }
 
     }
@@ -177,16 +191,39 @@ public class Defend_Code {
         }
         return hash;
     }
-    public static void fileWrite(String password){
+    public static void fileWrite(byte[] password){
         File file = new File("Password_File.txt");
         Path path = file.toPath();
         try {
-            Files.writeString(path,password, StandardCharsets.UTF_8);
+            Files.write(path,password);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Invalid file");
         }
 
     }
-
+    public static byte[] fileRead(){
+        File file = new File("Password_File.txt");
+        Path path = file.toPath();
+        byte[] passConf = null;
+        try {
+            passConf = Files.readAllBytes(path);
+        } catch (IOException e) {
+            System.out.println("Invalid File");
+        }
+        return passConf;
+    }
+ public static boolean isEqual(byte[] oldPass, byte[] newPass){
+        if(oldPass.length != newPass.length){
+            return false;
+        }
+        else {
+            for(int i = 0; i < oldPass.length; i++){
+                if(oldPass[i] != newPass[i]){
+                    return false;
+                }
+            }
+            return true;
+        }
+ }
 
 }
