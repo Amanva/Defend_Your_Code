@@ -1,13 +1,12 @@
 package programs;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -23,6 +22,8 @@ import java.security.spec.KeySpec;
 public class Defend_Code {
 
     static Scanner scan = new Scanner(System.in);
+    static SecureRandom random = new SecureRandom();
+
     public static void main(String[] args) {
 //        inputFile();
         Password();
@@ -135,16 +136,16 @@ public class Defend_Code {
 
     public static void Password() {
         System.out.println("Enter password: ");
-        String password = scanner.nextLine().strip();
+        String password = scanner.nextLine();
+        byte[] salter = salt();
         if(isPasswordValid(password)){
-            try {
-                byte[] hashedPass = hash(password);
-                String hashedString = toHex(hashedPass);
-                fileWrite(hashedString);
+                byte[] hashedPass = hash(password, salter);
+            System.out.println("Re-enter password to verify: ");
+            password = scanner.nextLine();
+            byte[] newPassword = hash(password, salter);
+            System.out.println(Arrays.toString(newPassword));
 
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
+// AFJSKLF1231!!sd
 
         }
         else{
@@ -159,16 +160,17 @@ public class Defend_Code {
         return match.find();
 
     }
-
-    public static byte[] hash(String password) {
-        SecureRandom random = new SecureRandom();
+    public static byte[] salt(){
         byte[] salt = new byte[16];
         random.nextBytes(salt);
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        return salt;
+    }
+    public static byte[] hash(String password, byte[] salt) {
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 100, 128);
         SecretKeyFactory factory;
         byte[] hash = null;
         try {
-            factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             hash = factory.generateSecret(spec).getEncoded();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             System.out.println("error");
@@ -184,25 +186,6 @@ public class Defend_Code {
             e.printStackTrace();
         }
 
-    }
-
-    /**
-     * reference: https://blog.knoldus.com/encryption-with-pbkdf2/
-     * @param array
-     * @return
-     * @throws NoSuchAlgorithmException
-     */
-    private static String toHex(byte[] array) throws NoSuchAlgorithmException
-    {
-        BigInteger bi = new BigInteger(1, array);
-        String hex = bi.toString(16);
-        int paddingLength = (array.length * 2) - hex.length();
-        if(paddingLength > 0)
-        {
-            return String.format("%0"  +paddingLength + "d", 0) + hex;
-        }else{
-            return hex;
-        }
     }
 
 
