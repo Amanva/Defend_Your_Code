@@ -91,47 +91,46 @@ public class Defend_Code {
     }
 
     public static void twoInts() {
-        System.out.println("Enter two numbers between -2,147 to 2,147");
+        System.out.println("Enter two integer numbers between -2,147 to 2,147 (either one per line or separated by a space, no commas):");
         int int1 = 0, int2 = 0;
+        String line;
         boolean ok = false;
-
-        // TODO needs to clean of commas
         while (!ok) {
-            System.out.print("Enter the first number: ");
+            line = scan.next();
             try {
-                if (scan.hasNextInt()) {
-                    int1 = scan.nextInt();
-                    if (int1 >= -2147 && int1 <= 2147) {
-                        ok = true;
-                    }
+                int1 = Integer.parseInt(line);
+                if (int1 >= -2147 && int1 <= 2147) {
+                    ok = true;
                 } else {
-                    scan.nextLine();
-                    System.out.println("Not a number between -2,147 to 2,147");
+                    System.err.println("Not an integer numbers between -2,147 to 2,147");
+                    System.out.println("Try again: ");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Try again");
+            } catch (NumberFormatException e) {
+                System.err.println("Not an integer numbers between -2,147 to 2,147 " + e.getMessage());
+                System.out.println("Try again: ");
             }
         }
+
         ok = false;
         while (!ok) {
-            System.out.print("Enter the second number: ");
+            line = scan.next();
             try {
-                if (scan.hasNextInt()) {
-                    int2 = scan.nextInt();
-                    if (int2 >= -2147 && int2 <= 2147) {
-                        ok = true;
-                    }
+                int2 = Integer.parseInt(line);
+                if (int2 >= -2147 && int2 <= 2147) {
+                    ok = true;
                 } else {
-                    scan.nextLine();
-                    System.out.println("Not a number between -2,147 to 2,147");
+                    System.err.println("Not an integer numbers between -2,147 to 2,147");
+                    System.out.println("Try again: ");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Try again");
+            } catch (NumberFormatException e) {
+                System.err.println("Not an integer numbers between -2,147 to 2,147 " + e.getMessage());
+                System.out.println("Try again: ");
             }
         }
 
         System.out.println(int1 + " " + int2);
     }
+
     static Scanner scanner = new Scanner(System.in);
 
     public static void Password() {
