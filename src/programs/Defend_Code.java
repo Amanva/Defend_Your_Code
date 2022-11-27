@@ -146,7 +146,7 @@ public class Defend_Code {
     }
 
     public static int getInt() {
-        System.out.println("Enter an integer number between -2,147 to 2,147:");
+        System.out.println("Enter an integer number between -2,147 to 2,147. Do not include commas or white spaces:");
         int int1 = 0;
         String line;
         boolean ok = false;
