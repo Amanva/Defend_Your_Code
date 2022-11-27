@@ -144,9 +144,9 @@ public class Defend_Code {
         }
         return string.toString();
     }
-    public static void twoInts() {
-        System.out.println("Enter two integer numbers between -2,147 to 2,147 (either one per line or separated by a space, no commas):");
-        int int1 = 0, int2 = 0;
+    public static int getInt() {
+        System.out.println("Enter an integer number between -2,147 to 2,147:");
+        int int1 = 0;
         String line;
         boolean ok = false;
         while (!ok) {
@@ -165,24 +165,7 @@ public class Defend_Code {
             }
         }
 
-        ok = false;
-        while (!ok) {
-            line = scan.next();
-            try {
-                int2 = Integer.parseInt(line);
-                if (int2 >= -2147 && int2 <= 2147) {
-                    ok = true;
-                } else {
-                    System.err.println("Not an integer numbers between -2,147 to 2,147");
-                    System.out.println("Try again: ");
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("Not an integer numbers between -2,147 to 2,147 " + e.getMessage());
-                System.out.println("Try again: ");
-            }
-        }
-
-        System.out.println(int1 + " " + int2);
+        return int1;
     }
 
     static Scanner scanner = new Scanner(System.in);
