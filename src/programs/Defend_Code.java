@@ -35,9 +35,10 @@ public class Defend_Code {
 
     }
 
+
     public static String firstName(){
 
-        System.out.println("Enter first name, at most 50 characters");
+        System.out.println("Enter first name, at most 50 characters excluding spaces");
         System.out.println("Valid characters are [A-Z][a-z]");
         System.out.println("Example: Arashpreet");
         String name = scan.nextLine();
@@ -46,7 +47,7 @@ public class Defend_Code {
         return name;
     }
     public static String lastName(){
-        System.out.println("Enter last name, at most 50 characters");
+        System.out.println("Enter last name, at most 50 characters excluding spaces");
         System.out.println("Valid characters are [A-Z][a-z]");
         String name = scan.nextLine();
         String output = nameValidation(name);
@@ -57,14 +58,14 @@ public class Defend_Code {
     public static String nameValidation(String input){
         String pattern = "^[a-zA-z]{0,50}$";
         Pattern pat = Pattern.compile(pattern);
-
+        input = input.trim();
         Matcher m = pat.matcher(input);
 
         if(m.find()){
             return "Valid";
         }
         else{
-            return "Reenter";
+            return "Invalid";
         }
     }
 
@@ -73,41 +74,41 @@ public class Defend_Code {
         System.out.println("Enter file used for input, must end in txt extension. Include directory or file will be taken from project folder." +
                 "\nexample: C:Windows\\System32\\system\\input.txt");
         String inputFile = scan.nextLine();
-        String output = inputFileValidation(inputFile);
+        String output = fileValidation(inputFile);
         System.out.println(output);
 
         //check if file exists
-        File f = new File(inputFile);
 
-        if(f.exists()){
-            System.out.println("File exists");
-        }
-        else{
-            System.out.println("File doesn't exist");
-
-        }
         return inputFile;
 
     }
 
-    public static String inputFileValidation(String input){
+    public static String fileValidation(String input){
         String pattern = "^[a-zA-z0-9:_/\\\\]{1,}\\.txt$";
         Pattern pat = Pattern.compile(pattern);
 
         Matcher m = pat.matcher(input);
 
+        File f = new File(input);
+
+
         if(m.find()){
-            return "Valid";
+            if(f.exists()){
+                return "Valid";
+            }
+            else{
+                return "File doesn't exist";
+            }
         }
         else{
-            return "Reenter";
+            return "Invalid";
         }
     }
 
     public static String outputFile(){
         System.out.println("Enter outfile, must end in txt extension. Can include directory or file will be taken from project folder.");
         String outputFileGiven = scan.nextLine();
-        String output = inputFileValidation(outputFileGiven);
+        String output = fileValidation(outputFileGiven);
         System.out.println(output);
         outputFile = outputFileGiven;
         return outputFileGiven;
