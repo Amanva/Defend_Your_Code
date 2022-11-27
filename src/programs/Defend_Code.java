@@ -144,6 +144,7 @@ public class Defend_Code {
         }
         return string.toString();
     }
+
     public static int getInt() {
         System.out.println("Enter an integer number between -2,147 to 2,147:");
         int int1 = 0;
@@ -156,16 +157,32 @@ public class Defend_Code {
                 if (int1 >= -2147 && int1 <= 2147) {
                     ok = true;
                 } else {
-                    System.err.println("Not an integer numbers between -2,147 to 2,147");
+                    System.err.println("Not an integer number between -2,147 to 2,147");
                     System.out.println("Try again: ");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("Not an integer numbers between -2,147 to 2,147 " + e.getMessage());
+                System.err.println("Not an integer number between -2,147 to 2,147 " + e.getMessage());
                 System.out.println("Try again: ");
             }
         }
 
         return int1;
+    }
+
+    public static int adding(int int1, int int2) {
+        long sum = (long)int1 + (long)int2;
+        if (sum > Integer.MAX_VALUE) {
+            throw new ArithmeticException("Overflow!");
+        }
+        return (int) sum;
+    }
+
+    public static int multiplying(int int1, int int2) {
+        long product = (long)int1 * (long)int2;
+        if (product > Integer.MAX_VALUE) {
+            throw new ArithmeticException("Overflow!");
+        }
+        return (int) product;
     }
 
     static Scanner scanner = new Scanner(System.in);
