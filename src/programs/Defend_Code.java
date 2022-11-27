@@ -20,29 +20,42 @@ import java.security.spec.KeySpec;
 
 
 public class Defend_Code {
+    static String outputFile = "";
 
     static Scanner scan = new Scanner(System.in);
     static SecureRandom random = new SecureRandom();
 
     public static void main(String[] args) {
 //        inputFile();
-        Password();
+        String fName = firstName();
+        String lName = lastName();
+        String inputFile = inputFile();
+        String output = outputFile();
+        writeToFile(fName, lName, inputFile, 1,0);
+
     }
 
-    public static void name(){
-        System.out.println("Enter a name and last name, both at most 50 characters \n " +
-                "comma to split last and first name");
+    public static String firstName(){
+
+        System.out.println("Enter first name, at most 50 characters");
         System.out.println("Valid characters are [A-Z][a-z]");
-        System.out.println("Example: Arashpreet, Pandher");
+        System.out.println("Example: Arashpreet");
+        String name = scan.nextLine();
+        String output = nameValidation(name);
+
+        return name;
+    }
+    public static String lastName(){
+        System.out.println("Enter last name, at most 50 characters");
+        System.out.println("Valid characters are [A-Z][a-z]");
         String name = scan.nextLine();
         String output = nameValidation(name);
         System.out.println(output);
 
-
-
+        return name;
     }
     public static String nameValidation(String input){
-        String pattern = "^[a-zA-z]{0,50}(\\s){0,},?(\\s){0,}[a-zA-z]{0,50}(\\s){0,50}$";
+        String pattern = "^[a-zA-z]{0,50}$";
         Pattern pat = Pattern.compile(pattern);
 
         Matcher m = pat.matcher(input);
@@ -56,8 +69,8 @@ public class Defend_Code {
     }
 
 
-    public static void inputFile(){
-        System.out.println("Enter file used for input, must end in txt extension. Include directory" +
+    public static String inputFile(){
+        System.out.println("Enter file used for input, must end in txt extension. Include directory or file will be taken from project folder." +
                 "\nexample: C:Windows\\System32\\system\\input.txt");
         String inputFile = scan.nextLine();
         String output = inputFileValidation(inputFile);
@@ -73,6 +86,7 @@ public class Defend_Code {
             System.out.println("File doesn't exist");
 
         }
+        return inputFile;
 
     }
 
@@ -90,6 +104,45 @@ public class Defend_Code {
         }
     }
 
+    public static String outputFile(){
+        System.out.println("Enter outfile, must end in txt extension. Can include directory or file will be taken from project folder.");
+        String outputFileGiven = scan.nextLine();
+        String output = inputFileValidation(outputFileGiven);
+        System.out.println(output);
+        outputFile = outputFileGiven;
+        return outputFileGiven;
+    }
+
+    public static void writeToFile(String fName, String lName, String inputFile, int intOne, int intTwo){
+        try {
+            FileWriter fw = new FileWriter(outputFile);
+            fw.write("First Name: " + fName+ "\n");
+            fw.write("Last Name: " + lName + "\n");
+            //int writing
+            fw.write("Input File: " + inputFile +"\n" + "File contents: \n");
+            fw.write(writeInputFile(inputFile));
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("Writing to file Error");
+        }
+
+    }
+    public static String writeInputFile(String inputFile){
+        StringBuilder string = new StringBuilder();
+        try {
+            FileReader read = new FileReader(inputFile);
+            int r=read.read();
+            while(r != -1){
+                string.append((char)r);
+                r= read.read();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error File not found");
+        } catch (IOException e) {
+            System.out.println("Error reading input file");
+        }
+        return string.toString();
+    }
     public static void twoInts() {
         System.out.println("Enter two integer numbers between -2,147 to 2,147 (either one per line or separated by a space, no commas):");
         int int1 = 0, int2 = 0;
@@ -198,7 +251,6 @@ public class Defend_Code {
         } catch (IOException e) {
             System.out.println("Invalid file");
         }
-
     }
     public static byte[] fileRead(){
         File file = new File("Password_File.txt");
