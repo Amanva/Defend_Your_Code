@@ -77,7 +77,40 @@ public class Defend_Code_Testing {
         String result = Defend_Code.fileValidation("inputt.txt");
         assertEquals("File doesn't exist", result);
     }
-
+    @Test
+    void testValidPassword() {
+        assertEquals(true,Defend_Code.isPasswordValid("AFJSKLF1231!!sd"));
+    }
+    @Test
+    void testInvalidPasswordConsecutiveLetters() {
+        assertEquals(false,Defend_Code.isPasswordValid("AFJSKLF1231!!sdfa"));
+    }
+    @Test
+    void testInvalidPasswordLength() {
+        assertEquals(false,Defend_Code.isPasswordValid("AS!1saA"));
+    }
+    @Test
+    void testPasswordValidHash() {
+        byte[] salter = Defend_Code.salt();
+        String firstPass = "AFJSKLF1231!!sd";
+        String secondPass = "AFJSKLF1231!!sd";
+        byte[] firstPassword = Defend_Code.hash(firstPass, salter);
+        Defend_Code.fileWrite(firstPassword);
+        byte[] secondPassword = Defend_Code.hash(secondPass, salter);
+        byte[] filePass = Defend_Code.fileRead();
+        assertEquals(true, Defend_Code.isEqual(filePass, secondPassword));
+    }
+    @Test
+    void testPasswordInvalidHash() {
+        byte[] salter = Defend_Code.salt();
+        String firstPass = "AFJSKLF1231!!sd";
+        String secondPass = "AFJSKLF1231!!sdawa";
+        byte[] firstPassword = Defend_Code.hash(firstPass, salter);
+        Defend_Code.fileWrite(firstPassword);
+        byte[] secondPassword = Defend_Code.hash(secondPass, salter);
+        byte[] filePass = Defend_Code.fileRead();
+        assertEquals(false, Defend_Code.isEqual(filePass, secondPassword));
+    }
 
 
 
