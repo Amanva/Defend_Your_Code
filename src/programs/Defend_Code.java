@@ -172,7 +172,7 @@ public class Defend_Code {
     }
 
     public static int getInt() {
-        System.out.println("Enter an integer number between -2,147 to 2,147. Do not include commas or white spaces:");
+        System.out.println("Enter an integer number between -2,147,483,647 to 2,147,483,647. Do not include commas or white spaces:");
         int int1 = 0;
         String line;
         boolean ok = false;
@@ -180,14 +180,14 @@ public class Defend_Code {
             line = scan.next();
             try {
                 int1 = Integer.parseInt(line);
-                if (int1 >= -2147 && int1 <= 2147) {
+                if (int1 >= -(2^31-1) && int1 <= (2^31-1)) {
                     ok = true;
                 } else {
-                    System.err.println("Not an integer number between -2,147 to 2,147");
+                    System.err.println("Not a valid input");
                     System.out.println("Try again: ");
                 }
             } catch (NumberFormatException e) {
-                System.err.println("Not an integer number between -2,147 to 2,147 " + e.getMessage());
+                System.err.println("Not a valid input " + e.getMessage());
                 System.out.println("Try again: ");
             }
         }
