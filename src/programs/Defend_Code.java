@@ -180,7 +180,7 @@ public class Defend_Code {
             line = scan.next();
             try {
                 int1 = Integer.parseInt(line);
-                if (int1 >= -(2^31-1) && int1 <= (2^31-1)) {
+                if (int1 >= -(Math.pow(2, 31)-1) && int1 <= (Math.pow(2, 31)-1)) {
                     ok = true;
                 } else {
                     System.err.println("Not a valid input");
@@ -195,26 +195,18 @@ public class Defend_Code {
         return int1;
     }
 
-    public static int adding(int int1, int int2) {
-        long sum = (long)int1 + (long)int2;
-        if (sum > Integer.MAX_VALUE) {
-            throw new ArithmeticException("Overflow!");
-        }
-        else if(sum < Integer.MIN_VALUE){
-            throw new ArithmeticException("Underflow!");
-        }
-        return (int) sum;
+    public static String adding(int int1, int int2) {
+        BigInteger bigInt1 = BigInteger.valueOf(int1);
+        BigInteger bigInt2 = BigInteger.valueOf(int2);
+        BigInteger sum = bigInt1.add(bigInt2);
+        return sum.toString();
     }
 
-    public static int multiplying(int int1, int int2) {
-        long product = (long)int1 * (long)int2;
-        if (product > Integer.MAX_VALUE) {
-            throw new ArithmeticException("Overflow!");
-        }
-        else if(product < Integer.MIN_VALUE){
-            throw new ArithmeticException("Underflow!");
-        }
-        return (int) product;
+    public static String multiplying(int int1, int int2) {
+        BigInteger bigInt1 = BigInteger.valueOf(int1);
+        BigInteger bigInt2 = BigInteger.valueOf(int2);
+        BigInteger product = bigInt1.multiply(bigInt2);
+        return product.toString();
     }
 
     static Scanner scanner = new Scanner(System.in);
