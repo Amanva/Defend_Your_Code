@@ -20,7 +20,6 @@ import java.security.spec.KeySpec;
 
 
 public class Defend_Code {
-    static String outputFile = "";
 
     static Scanner scan = new Scanner(System.in);
     static SecureRandom random = new SecureRandom();
@@ -31,28 +30,39 @@ public class Defend_Code {
         String lName = lastName();
         String inputFile = inputFile();
         String output = outputFile();
-        writeToFile(fName, lName, inputFile, 1,0);
+        int value1 = getInt();
+        int value2 = getInt();
 
+        writeToFile(fName, lName, inputFile,output, value1,value2);
     }
 
 
     public static String firstName(){
-
-        System.out.println("Enter first name, at most 50 characters excluding spaces");
-        System.out.println("Valid characters are [A-Z][a-z]");
-        System.out.println("Example: Arashpreet");
-        String name = scan.nextLine();
-        String output = nameValidation(name);
-
+        String name = "";
+        while(true) {
+            System.out.println("Enter first name, at most 50 characters excluding spaces");
+            System.out.println("Valid characters are [A-Z][a-z]");
+            System.out.println("Example: Arashpreet");
+            name = scan.nextLine();
+            String output = nameValidation(name);
+            if(output.equals("Valid")){
+                break;
+            }
+        }
         return name;
     }
     public static String lastName(){
-        System.out.println("Enter last name, at most 50 characters excluding spaces");
-        System.out.println("Valid characters are [A-Z][a-z]");
-        String name = scan.nextLine();
-        String output = nameValidation(name);
-        System.out.println(output);
-
+        String name = "";
+        while(true) {
+            System.out.println("Enter last name, at most 50 characters excluding spaces");
+            System.out.println("Valid characters are [A-Z][a-z]");
+            name = scan.nextLine();
+            String output = nameValidation(name);
+            System.out.println(output);
+            if(output.equals("Valid")){
+                break;
+            }
+        }
         return name;
     }
     public static String nameValidation(String input){
@@ -73,10 +83,16 @@ public class Defend_Code {
     public static String inputFile(){
         System.out.println("Enter file used for input, must end in txt extension. Include directory or file will be taken from project folder." +
                 "\nexample: C:Windows\\System32\\system\\input.txt");
-        String inputFile = scan.nextLine();
-        String output = fileValidation(inputFile);
-        System.out.println(output);
-
+        String inputFile = "";
+        while(true) {
+            inputFile = scan.nextLine();
+            String output = fileValidation(inputFile);
+            System.out.println(output);
+            if(output == "Valid"){
+                break;
+            }
+            System.out.println("Reenter");
+        }
         //check if file exists
 
         return inputFile;
@@ -107,22 +123,32 @@ public class Defend_Code {
 
     public static String outputFile(){
         System.out.println("Enter outfile, must end in txt extension. Can include directory or file will be taken from project folder.");
-        String outputFileGiven = scan.nextLine();
-        String output = fileValidation(outputFileGiven);
-        System.out.println(output);
-        outputFile = outputFileGiven;
+        String outputFileGiven = "";
+        while(true) {
+            outputFileGiven = scan.nextLine();
+            String output = fileValidation(outputFileGiven);
+            System.out.println(output);
+            if(output == "Valid"){
+                break;
+            }
+            System.out.println("Reenter");
+        }
+
         return outputFileGiven;
     }
 
-    public static void writeToFile(String fName, String lName, String inputFile, int intOne, int intTwo){
+    public static void writeToFile(String fName, String lName, String inputFile, String outputFile, int intOne, int intTwo){
         try {
             FileWriter fw = new FileWriter(outputFile);
             fw.write("First Name: " + fName+ "\n");
             fw.write("Last Name: " + lName + "\n");
             //int writing
+            fw.write("Addition: " + adding(intOne, intTwo) + "\n");
+            fw.write("Multiplication: " + multiplying(intOne, intTwo) + "\n");
             fw.write("Input File: " + inputFile +"\n" + "File contents: \n");
             fw.write(writeInputFile(inputFile));
             fw.close();
+            System.out.println("Finished Writing");
         } catch (IOException e) {
             System.out.println("Writing to file Error");
         }
@@ -174,6 +200,9 @@ public class Defend_Code {
         if (sum > Integer.MAX_VALUE) {
             throw new ArithmeticException("Overflow!");
         }
+        else if(sum < Integer.MIN_VALUE){
+            throw new ArithmeticException("Underflow!");
+        }
         return (int) sum;
     }
 
@@ -181,6 +210,9 @@ public class Defend_Code {
         long product = (long)int1 * (long)int2;
         if (product > Integer.MAX_VALUE) {
             throw new ArithmeticException("Overflow!");
+        }
+        else if(product < Integer.MIN_VALUE){
+            throw new ArithmeticException("Underflow!");
         }
         return (int) product;
     }

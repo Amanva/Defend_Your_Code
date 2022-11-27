@@ -1,11 +1,7 @@
 First Name: Arashpreet
 Last Name: Pandher
-Input File: C:\Users\pandh\Documents\GitHub\Defend_Your_Code\src\programs\input.txt
+Addition: 4294
+Multiplication: 4609609
+Input File: input.txt
 File contents: 
-Testing:
-Hello world
-Hello world
-TCSS ?
-Secure coding
-
-TESTING
+TCSS 
