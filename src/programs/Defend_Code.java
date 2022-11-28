@@ -67,7 +67,7 @@ public class Defend_Code {
     public static String nameValidation(String input){
         String pattern = "^[a-zA-z]{0,50}$";
         Pattern pat = Pattern.compile(pattern);
-        input = input.trim();
+        input = input.strip();
         Matcher m = pat.matcher(input);
 
         if(m.find()){
@@ -223,6 +223,7 @@ public class Defend_Code {
                     "No three consecutive lower case characters\n" +
                     "Enter Password: ");
             String password = scanner.nextLine();
+            password = password.strip();
         if(isPasswordValid(password)) {
             byte[] hashedPass = hash(password, salter);
             fileWrite(hashedPass);
