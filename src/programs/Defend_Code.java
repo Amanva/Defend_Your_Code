@@ -2,12 +2,9 @@ package programs;
 
 import java.io.*;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.InputMismatchException;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,12 +15,30 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
+/**
+ * This program takes input from user such as name, two int values, input file, output file, and password. Then it
+ * validates all of input to make sure it is safe.
+ *
+ * @authors Arashpreet S. Pandher, Aman Vahora, Matthew Pham-Nguyen
+ * @version 1.0
+ *
+ */
 
 public class Defend_Code {
 
+    /**
+     * scanner for input form user
+     */
     static Scanner scan = new Scanner(System.in);
+    /**
+     *
+     */
     static SecureRandom random = new SecureRandom();
 
+    /**
+     * main method to call functions
+     * @param args
+     */
     public static void main(String[] args) {
         String fName = firstName();
         String lName = lastName();
@@ -35,7 +50,10 @@ public class Defend_Code {
         writeToFile(fName, lName, inputFile,output, value1,value2);
     }
 
-
+    /**
+     * This method gets first name from user
+     * @return returns string name
+     */
     public static String firstName(){
         String name = "";
         while(true) {
@@ -50,6 +68,11 @@ public class Defend_Code {
         }
         return name;
     }
+
+    /**
+     * This method gets the last name from user
+     * @return returns string name
+     */
     public static String lastName(){
         String name = "";
         while(true) {
@@ -64,6 +87,12 @@ public class Defend_Code {
         }
         return name;
     }
+
+    /**
+     * This method checks if name is valid
+     * @param input name input (string)
+     * @return returns string name
+     */
     public static String nameValidation(String input){
         String pattern = "^[a-zA-z]{0,50}$";
         Pattern pat = Pattern.compile(pattern);
@@ -78,7 +107,10 @@ public class Defend_Code {
         }
     }
 
-
+    /**
+     * This method gets input file from user
+     * @return returns input file as string
+     */
     public static String inputFile(){
         System.out.println("Enter file used for input, must end in txt extension. Include directory or file will be taken from project folder." +
                 "\nexample: C:Windows\\System32\\system\\input.txt");
@@ -98,6 +130,11 @@ public class Defend_Code {
 
     }
 
+    /**
+     * This method checks if file is valid
+     * @param input file name input
+     * @return returns string
+     */
     public static String fileValidation(String input){
         String pattern = "^[a-zA-z0-9:_/\\\\]{1,}\\.txt$";
         Pattern pat = Pattern.compile(pattern);
@@ -120,6 +157,10 @@ public class Defend_Code {
         }
     }
 
+    /**
+     * This method checks if output file is valid
+     * @return returns if valid or not valid
+     */
     public static String outputFile(){
         System.out.println("Enter outfile, must end in txt extension. Can include directory or file will be taken from project folder.");
         String outputFileGiven = "";
@@ -136,6 +177,15 @@ public class Defend_Code {
         return outputFileGiven;
     }
 
+    /**
+     * this method writes to output file
+     * @param fName first name
+     * @param lName last name
+     * @param inputFile inputfile
+     * @param outputFile outputfile
+     * @param intOne first number
+     * @param intTwo second number
+     */
     public static void writeToFile(String fName, String lName, String inputFile, String outputFile, int intOne, int intTwo){
         try {
             FileWriter fw = new FileWriter(outputFile);
@@ -153,6 +203,12 @@ public class Defend_Code {
         }
 
     }
+
+    /**
+     * This writes content of input file to outputfile
+     * @param inputFile file input
+     * @return returns file content as string
+     */
     public static String writeInputFile(String inputFile){
         StringBuilder string = new StringBuilder();
         try {
@@ -169,6 +225,7 @@ public class Defend_Code {
         }
         return string.toString();
     }
+
 
     public static int getInt() {
         Scanner scan = new Scanner(System.in);
