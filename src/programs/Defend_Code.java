@@ -25,7 +25,6 @@ public class Defend_Code {
     static SecureRandom random = new SecureRandom();
 
     public static void main(String[] args) {
-//        inputFile();
         String fName = firstName();
         String lName = lastName();
         String inputFile = inputFile();
@@ -172,20 +171,21 @@ public class Defend_Code {
     }
 
     public static int getInt() {
+        Scanner scan = new Scanner(System.in);
         System.out.println("Enter an integer number between -2,147,483,647 to 2,147,483,647. Do not include commas or white spaces:");
         int int1 = 0;
         String line;
         boolean ok = false;
         while (!ok) {
-            line = scan.next();
+            line = scan.nextLine();
             try {
                 int1 = Integer.parseInt(line);
-                if (int1 >= -(Math.pow(2, 31)-1) && int1 <= (Math.pow(2, 31)-1)) {
+//                if (int1 >= Integer.MIN_VALUE && int1 <= Integer.MAX_VALUE) {
                     ok = true;
-                } else {
-                    System.err.println("Not a valid input");
-                    System.out.println("Try again: ");
-                }
+//                } else {
+//                    System.err.println("Not a valid input");
+//                    System.out.println("Try again: ");
+//                }
             } catch (NumberFormatException e) {
                 System.err.println("Not a valid input " + e.getMessage());
                 System.out.println("Try again: ");

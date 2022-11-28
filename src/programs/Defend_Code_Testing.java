@@ -1,6 +1,13 @@
 package programs;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayInputStream;
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 public class Defend_Code_Testing {
 
 
@@ -112,8 +119,160 @@ public class Defend_Code_Testing {
         assertEquals(false, Defend_Code.isEqual(filePass, secondPassword));
     }
 
+    /**
+     * Enter a normal value of 15 for getInt method.
+     */
+    @Test
+    void testIntNormal() {
+        String userInput = "15";
+        ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(in);
+        assertEquals(15, Defend_Code.getInt());
+    }
 
+    /**
+     * Enter max value of 2147483647 for getInt method.
+     */
+    @Test
+    void testIntMaxValue() {
+        String userInput = "2147483647";
+        ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(in);
+        assertEquals(2147483647, Defend_Code.getInt());
+    }
 
+    /**
+     * Enter min value of -2147483647 for getInt method.
+     */
+    @Test
+    void testIntMinValue() {
+        String userInput = "-2147483647";
+        ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(in);
+        assertEquals(-2147483647, Defend_Code.getInt());
+    }
 
+    /**
+     * Enter a non-numeric character for getInt method.
+     */
+    @Test
+    void testIntNonNumber() {
+        String userInput = "a";
+        ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(in);
+        assertThrows(NoSuchElementException.class, Defend_Code::getInt, "\"a\" should be rejected and ask user for input again");
+    }
 
+    /**
+     * Enter a number too large for getInt method.
+     */
+    @Test
+    void testIntTooBig() {
+        String userInput = "3000000000";
+        ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(in);
+        assertThrows(NoSuchElementException.class, Defend_Code::getInt, "\"3000000000\" should be rejected and ask user for input again");
+    }
+
+    /**
+     * Enter a number too small for getInt method.
+     */
+    @Test
+    void testIntTooSmall() {
+        String userInput = "-3000000000";
+        ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(in);
+        assertThrows(NoSuchElementException.class, Defend_Code::getInt, "\"-3000000000\" should be rejected and ask user for input again");
+    }
+
+    /**
+     * Enter a number with commas for getInt method.
+     */
+    @Test
+    void testIntCommas() {
+        String userInput = "1,050";
+        ByteArrayInputStream in = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(in);
+        assertThrows(NoSuchElementException.class, Defend_Code::getInt, "\"1,050\" should be rejected and ask user for input again");
+    }
+
+    /**
+     * Adding 5 and 15
+     */
+    @Test
+    void testAddingNormal() {
+        assertEquals("20", Defend_Code.adding(5, 15));
+    }
+
+    /**
+     * Adding 5 and -15
+     */
+    @Test
+    void testAddingNormalNegative() {
+        assertEquals("-10", Defend_Code.adding(5, -15));
+    }
+
+    /**
+     * Adding 2147483647 and 2147483647, should not overflow.
+     */
+    @Test
+    void testAddingMaxInputs() {
+        assertEquals("4294967294", Defend_Code.adding(Integer.MAX_VALUE, Integer.MAX_VALUE));
+    }
+
+    /**
+     * Adding -2147483648 and -2147483648, should not underflow.
+     */
+    @Test
+    void testAddingMinInputs() {
+        assertEquals("-4294967296", Defend_Code.adding(Integer.MIN_VALUE, Integer.MIN_VALUE));
+    }
+
+    /**
+     * Adding 0 and 0.
+     */
+    @Test
+    void testAddingZeros() {
+        assertEquals("0", Defend_Code.adding(0, 0));
+    }
+
+    /**
+     * Multiplying 5 and 15
+     */
+    @Test
+    void testMultiplyingNormal() {
+        assertEquals("12", Defend_Code.multiplying(3, 4));
+    }
+
+    /**
+     * Multiplying 5 and -15
+     */
+    @Test
+    void testMultiplyingNormalNegative() {
+        assertEquals("-20", Defend_Code.multiplying(10, -2));
+    }
+
+    /**
+     * Multiplying 2147483647 and 2147483647, should not overflow.
+     */
+    @Test
+    void testMultiplyingMaxInputs() {
+        assertEquals("4611686014132420609", Defend_Code.multiplying(Integer.MAX_VALUE, Integer.MAX_VALUE));
+    }
+
+    /**
+     * Multiplying -2147483648 and -2147483648, should not underflow.
+     */
+    @Test
+    void testMultiplyingMinInputs() {
+        assertEquals("4611686018427387904", Defend_Code.multiplying(Integer.MIN_VALUE, Integer.MIN_VALUE));
+    }
+
+    /**
+     * Multiplying 0 and 0.
+     */
+    @Test
+    void testMultiplyingZeros() {
+        assertEquals("0", Defend_Code.multiplying(0, 0));
+    }
 }
