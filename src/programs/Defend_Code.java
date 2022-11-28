@@ -221,6 +221,7 @@ public class Defend_Code {
                     "at least one lower case character,\n" +
                     "at least one punctuation mark\n" +
                     "No three consecutive lower case characters\n" +
+                    "At least 10 characters\n" +
                     "Enter Password: ");
             String password = scanner.nextLine();
             password = password.strip();
@@ -229,6 +230,7 @@ public class Defend_Code {
             fileWrite(hashedPass);
             System.out.println("Re-enter password to verify: ");
             password = scanner.nextLine();
+            password = password.strip();
             byte[] newPassword = hash(password, salter);
             byte[] filePassword = fileRead();
             if (isEqual(filePassword, newPassword)) {
@@ -240,7 +242,7 @@ public class Defend_Code {
         }
 // AFJSKLF1231!!sd
         else{
-                System.out.println("Invalid password");
+                System.out.println("Invalid password: re-enter password");
             }
         }
 
