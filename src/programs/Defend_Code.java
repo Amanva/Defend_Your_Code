@@ -229,7 +229,7 @@ public class Defend_Code {
 
     public static int getInt() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter an integer number between -2,147,483,647 to 2,147,483,647. Do not include commas or white spaces:");
+        System.out.println("Enter an integer number between -2,147,483,648 to 2,147,483,647. Do not include commas or white spaces:");
         int int1 = 0;
         String line;
         boolean ok = false;
