@@ -226,7 +226,10 @@ public class Defend_Code {
         return string.toString();
     }
 
-
+    /**
+     * Prompts the user for an int with the range of 4 bytes. Keeps asking until valid input is given.
+     * @return the entered proper int
+     */
     public static int getInt() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter an integer number between -2,147,483,648 to 2,147,483,647. Do not include commas or white spaces:");
@@ -252,6 +255,12 @@ public class Defend_Code {
         return int1;
     }
 
+    /**
+     * Adds two ints together, converts to BigInteger to avoid overflow.
+     * @param int1 the first int to be added
+     * @param int2 the second int to be added
+     * @return the sum of the two ints as a string
+     */
     public static String adding(int int1, int int2) {
         BigInteger bigInt1 = BigInteger.valueOf(int1);
         BigInteger bigInt2 = BigInteger.valueOf(int2);
@@ -259,6 +268,12 @@ public class Defend_Code {
         return sum.toString();
     }
 
+    /**
+     * Multiplies two ints together, converts to BigInteger to avoid overflow.
+     * @param int1 the first int to be multiplied
+     * @param int2 the second int to be multiplied
+     * @return the product of the two ints as a string
+     */
     public static String multiplying(int int1, int int2) {
         BigInteger bigInt1 = BigInteger.valueOf(int1);
         BigInteger bigInt2 = BigInteger.valueOf(int2);
