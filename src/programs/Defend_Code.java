@@ -282,7 +282,9 @@ public class Defend_Code {
     }
 
     static Scanner scanner = new Scanner(System.in);
-
+    /**
+     * Hashes the password and checks if it is a valid password. Prints again if password is invalid
+     */
     public static void Password() {
         boolean correct = false;
         byte[] salter = salt();
@@ -319,6 +321,11 @@ public class Defend_Code {
         }
 
     }
+    /**
+     * Checks if the password is valid
+     * @param userString the password
+     * @return if the password is valid or not
+     */
     public static boolean isPasswordValid(String userString){
         String validity = "^((?=.*[A-Z])(?=.*[a-z])(?!.*[a-z]{3,})(?=.*[\\d])(?=.*[!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{~}])).{10,}$";
         Pattern pattern = Pattern.compile(validity);
@@ -326,11 +333,21 @@ public class Defend_Code {
         return match.find();
 
     }
+    /**
+     * Method to get the salt for hashing
+     * @return byte
+     */
     public static byte[] salt(){
         byte[] salt = new byte[16];
         random.nextBytes(salt);
         return salt;
     }
+    /**
+     * Hashes the password using the salt
+     * @param password the password string
+     * @param salt the salt byte
+     * @return the hashed password
+     */
     public static byte[] hash(String password, byte[] salt) {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 100, 128);
         SecretKeyFactory factory;
@@ -343,6 +360,10 @@ public class Defend_Code {
         }
         return hash;
     }
+    /**
+     * write password to file
+     * @param password the hashed password
+     */
     public static void fileWrite(byte[] password){
         File file = new File("Password_File.txt");
         Path path = file.toPath();
@@ -352,6 +373,10 @@ public class Defend_Code {
             System.out.println("Invalid file");
         }
     }
+    /**
+     * read the password from file
+     * @return the password from file
+     */
     public static byte[] fileRead(){
         File file = new File("Password_File.txt");
         Path path = file.toPath();
@@ -363,6 +388,12 @@ public class Defend_Code {
         }
         return passConf;
     }
+    /**
+     * checks if the first and second password are equal
+     * @param oldPass the first password
+     * @param newPass the second password
+     * @return returns boolean if they match or not
+     */
  public static boolean isEqual(byte[] oldPass, byte[] newPass){
         if(oldPass.length != newPass.length){
             return false;
